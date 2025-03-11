@@ -19,9 +19,14 @@ if __name__ == '__main__':
     # pprint(vk.get_friends())
     # pprint(vk.get_photos())
 
-    # vk.get_photos()
-    # vk.download_images()
-    # vk.images_info_to_json()
+    vk.get_photos()
+    vk.download_images()
+    vk.images_info_to_json()
 
     # ya.check_token()
-    ya.create_folder('test')
+    local_folder = 'download'
+    remote_folder = 'backup'
+
+    ya.create_folder(remote_folder)
+
+    ya.upload_files_from_folder(local_folder, remote_folder)

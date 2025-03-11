@@ -3,7 +3,7 @@ import os
 import pprint
 from io import BytesIO
 from urllib import response
-
+from tqdm import tqdm
 from PIL import Image
 
 import requests
@@ -64,7 +64,7 @@ class VK:
         except json.decoder.JSONDecodeError as e:
             raise Exception(f'Ошибка при разборе JSON {e}')
 
-        pprint.pp(images['response']['items'])
+        # pprint.pp(images['response']['items'])
 
         for photo in images['response']['items']:
             try:
@@ -90,7 +90,7 @@ class VK:
                 raise Exception(f'Ошибка при обработке изображения {e}')
 
 
-        pprint.pp(self.images_info)
+        # pprint.pp(self.images_info)
         return self.images_info
 
     def download_images(self):
@@ -99,8 +99,14 @@ class VK:
         if not os.path.exists(download_folder):
             os.makedirs(download_folder)
 
+        # pprint.pprint(self.images_info)
+
         if self.images_info:
-            for image_info in self.images_info:
+            for image_info in tqdm(self.images_info, desc="Загрузка изображений", unit="file"):
+
+
+                # print(image_info)
+
                 likes = image_info['image_likes']
                 date = image_info['image_date']
 
